@@ -1,4 +1,4 @@
-# DbBenchmarks#
+# DbBenchmarks
 
 * The script for creating the table used for tests is in DATABASE folder
 * During my tests i used postgresql 
