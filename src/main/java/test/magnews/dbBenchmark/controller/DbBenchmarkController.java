@@ -1,5 +1,6 @@
 package test.magnews.dbBenchmark.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import test.magnews.dbBenchmark.service.DbBenchmarkService;
 @RestController
 @RequestMapping(path = "/db")
 public class DbBenchmarkController {
+	@Autowired
 	DbBenchmarkService service=new DbBenchmarkService();
 	
 	/*

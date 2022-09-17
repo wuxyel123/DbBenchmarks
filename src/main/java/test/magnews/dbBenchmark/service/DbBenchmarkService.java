@@ -8,6 +8,7 @@ import java.util.Random;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import test.magnews.dbBenchmark.utils.DbUtils;
 import test.magnews.dbBenchmark.om.DbBenchmarkRequestOm;
@@ -17,7 +18,11 @@ import test.magnews.dbBenchmark.om.DbBenchmarkResponseOm;
  * Service class for Db benchmark API
  * @author Alessandro Disclazi
  * */
+@Service
 public class DbBenchmarkService {
+
+	@Autowired
+	DbUtils dbUtils;
 	
 	/*
 	 * Executes the benchmark of the DB
@@ -38,8 +43,8 @@ public class DbBenchmarkService {
 	 * Clear the table for a clean benchmark
 	 * */
 	public void clearTable() {
-			try (Connection connection = DbUtils.getDBConnection();
-					PreparedStatement ps = connection.prepareStatement("TRUNCATE users")) {
+			try (Connection connection = dbUtils.getDBConnection();
+					PreparedStatement ps = connection.prepareStatement("TRUNCATE usersschema.users")) {
 					ps.execute();
 					connection.commit();
 				}
@@ -57,8 +62,8 @@ public class DbBenchmarkService {
 		Long minTime=Long.MAX_VALUE;
 		Long maxTime=Long.MIN_VALUE;
 		Long avgTime=0L;
-		String sql="INSERT into users (user_id,username,password,lastName,firstName,address,city,nation,zip_code) VALUES(?,?,?,?,?,?,?,?,?)";
-		try (Connection connection = DbUtils.getDBConnection();				
+		String sql="INSERT into usersschema.users (user_id,username,password,lastName,firstName,address,city,nation,zip_code) VALUES(?,?,?,?,?,?,?,?,?)";
+		try (Connection connection = dbUtils.getDBConnection();
 			PreparedStatement ps = connection.prepareStatement(sql)) {
 				//Inserts a number of data based on the input (DEFAULT 100)
 				for(int i = 0;i<request.getInsertNumberToBenchmark();i++) {
@@ -113,8 +118,8 @@ public class DbBenchmarkService {
 		Long minTime=Long.MAX_VALUE;
 		Long maxTime=Long.MIN_VALUE;
 		Long avgTime=0L;
-		String sql="SELECT * FROM users WHERE user_id =? ";
-		try (Connection connection = DbUtils.getDBConnection();				
+		String sql="SELECT * FROM usersschema.users WHERE user_id =? ";
+		try (Connection connection = dbUtils.getDBConnection();
 			PreparedStatement ps = connection.prepareStatement(sql)) {
 				//Select a number of data based on the input (DEFAULT 100)
 				for(int i = 0;i<request.getSelectNumberToBenchmark();i++) {
