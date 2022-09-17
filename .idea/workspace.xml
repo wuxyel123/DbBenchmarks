@@ -5,8 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0b54169f-bc43-4052-9f70-bc62a0fa17fd" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/magnews/dbBenchmark/DbBenchmarkApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/magnews/dbBenchmark/DbBenchmarkApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test/magnews/dbBenchmark/controller/DbBenchmarkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/magnews/dbBenchmark/controller/DbBenchmarkController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test/magnews/dbBenchmark/om/DbBenchmarkRequestOm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/magnews/dbBenchmark/om/DbBenchmarkRequestOm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test/magnews/dbBenchmark/om/DbBenchmarkResponseOm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/magnews/dbBenchmark/om/DbBenchmarkResponseOm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test/magnews/dbBenchmark/service/DbBenchmarkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/magnews/dbBenchmark/service/DbBenchmarkService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +65,11 @@
     ]
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="test.magnews.dbBenchmark.om" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -68,7 +78,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1663408509183</updated>
-      <workItem from="1663408513914" duration="7497000" />
+      <workItem from="1663408513914" duration="13081000" />
     </task>
     <servers />
   </component>

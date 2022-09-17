@@ -1,17 +1,16 @@
 package test.magnews.dbBenchmark.service;
 
+import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Random;
-
-import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import test.magnews.dbBenchmark.utils.DbUtils;
+import test.magnews.dbBenchmark.om.BenchmarkStatsOm;
 import test.magnews.dbBenchmark.om.DbBenchmarkRequestOm;
+import test.magnews.dbBenchmark.utils.DbUtils;
 import test.magnews.dbBenchmark.om.DbBenchmarkResponseOm;
 
 /**
@@ -23,132 +22,71 @@ public class DbBenchmarkService {
 
 	@Autowired
 	DbUtils dbUtils;
+
+	@Value("${benchmark.file.csv.path.insert}")
+	String fileInsertBenchmark;
+
+	@Value("${benchmark.file.csv.path.select}")
+	String fileSelectBenchmark;
 	
 	/*
 	 * Executes the benchmark of the DB
-	 * @param DbBenchmarkRequestOm request: request containing informations about the benchmark to be performed
+	 * @param DbBenchmarkRequestOm request: request containing information about the benchmark to be performed
 	 * @return DbBenchmarkResponseOm: response containing the result of the benchmark   
 	 * */
 	public DbBenchmarkResponseOm benchmarkDB(DbBenchmarkRequestOm request) {
 		DbBenchmarkResponseOm response=new DbBenchmarkResponseOm();
-		
-		clearTable();
-		benchmarkInsert(request,response);
-		benchmarkSelect(request,response);
+
+		response.setInsertBenchmark(benchmarkFromFile(request,fileInsertBenchmark));
+		response.setSelectBenchmark(benchmarkFromFile(request,fileSelectBenchmark));
+
 		return response;
 	}
-	
-	
+
 	/**
-	 * Clear the table for a clean benchmark
+	 * Execute the benchmark using the queries taken from a file
+	 * @param filepath: path of the file
 	 * */
-	public void clearTable() {
-			try (Connection connection = dbUtils.getDBConnection();
-					PreparedStatement ps = connection.prepareStatement("TRUNCATE usersschema.users")) {
-					ps.execute();
-					connection.commit();
-				}
-			catch(SQLException e) {
-				e.printStackTrace();
-			}
-	}
-	
-	/*
-	 * Executes the benchmark of insert statement
-	 * @param DbBenchmarkRequestOm request: request containing informations about the benchmark to be performed
-	 * @param DbBenchmarkResponseOm: response that will be returned  
-	 * */
-	public void benchmarkInsert(DbBenchmarkRequestOm request,DbBenchmarkResponseOm response) {
+	public BenchmarkStatsOm benchmarkFromFile(DbBenchmarkRequestOm request,String filepath){
+		Long records =0L;
 		Long minTime=Long.MAX_VALUE;
 		Long maxTime=Long.MIN_VALUE;
 		Long avgTime=0L;
-		String sql="INSERT into usersschema.users (user_id,username,password,lastName,firstName,address,city,nation,zip_code) VALUES(?,?,?,?,?,?,?,?,?)";
-		try (Connection connection = dbUtils.getDBConnection();
-			PreparedStatement ps = connection.prepareStatement(sql)) {
-				//Inserts a number of data based on the input (DEFAULT 100)
-				for(int i = 0;i<request.getInsertNumberToBenchmark();i++) {
-					//Prepare the data to insert, since its just test data the pwd is not encrypted
-					String username="User"+i;
-					String password="pwd"+i;
-					String lastName="LastName"+i;
-					String firstName="FirstName"+i;
-					String address="Adress"+i;
-					String city="City"+i;
-					String nation="Nation"+i;
-					String zip_code="0"+i;
-					ps.setLong(1, i+1);
-					ps.setString(2, username);
-					ps.setString(3, password);
-					ps.setString(4, lastName);
-					ps.setString(5, firstName);
-					ps.setString(6, address);
-					ps.setString(7, city);
-					ps.setString(8, nation);
-					ps.setString(9, zip_code);
-					//Executes the query and calculate the time it took to complete in nanoseconds
-					Long startTime=System.nanoTime();
-					ps.execute();
-					Long elapsed=System.nanoTime()-startTime;
-					if(elapsed<minTime) minTime=elapsed;
-					if(elapsed>maxTime) maxTime=elapsed;
-					avgTime+=elapsed;
-					
-					if((i+1)%request.getCommitAfterXStatement()==0) connection.commit();
-					
-				}
-				//Save the results in the response
-				avgTime/=request.getInsertNumberToBenchmark();
-				response.setMinInsertTimeNanoSeconds(minTime);
-				response.setMaxInsertTimeNanoSeconds(maxTime);
-				response.setAvgInsertTimeNanoSeconds(avgTime);
-				response.setInsertedRecord(request.getInsertNumberToBenchmark());
+		try(Connection connection = dbUtils.getDBConnection())
+		{
+			File file=new File(filepath);    //creates a new file instance
+			FileReader fr=new FileReader(file);   //reads the file
+			BufferedReader br=new BufferedReader(fr);  //creates a buffering character input stream
+			String line;
+			while((line=br.readLine())!=null)
+			{
+				PreparedStatement ps = connection.prepareStatement(line);
+				records++;
+				Long startTime=System.nanoTime();
+				ps.execute();
+				Long elapsed=System.nanoTime()-startTime;
+				if(elapsed<minTime) minTime=elapsed;
+				if(elapsed>maxTime) maxTime=elapsed;
+				avgTime+=elapsed;
+				if((records)%request.getCommitAfterXStatement()==0) connection.commit();
+				ps.close();
+
+
 			}
-		catch(SQLException e) {
+			connection.commit();
+			avgTime/=records;
+			fr.close();    //closes the stream and release the resource
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
-		
+
+		return new BenchmarkStatsOm(records,minTime,maxTime,avgTime);
 	}
-	
-	/*
-	 * Executes the benchmark of select statements
-	 * @param DbBenchmarkRequestOm request: request containing informations about the benchmark to be performed
-	 * @param DbBenchmarkResponseOm: response that will be returned  
-	 * */
-	public void benchmarkSelect(DbBenchmarkRequestOm request,DbBenchmarkResponseOm response) {
-		Long minTime=Long.MAX_VALUE;
-		Long maxTime=Long.MIN_VALUE;
-		Long avgTime=0L;
-		String sql="SELECT * FROM usersschema.users WHERE user_id =? ";
-		try (Connection connection = dbUtils.getDBConnection();
-			PreparedStatement ps = connection.prepareStatement(sql)) {
-				//Select a number of data based on the input (DEFAULT 100)
-				for(int i = 0;i<request.getSelectNumberToBenchmark();i++) {
-	
-				    Long max = request.getInsertNumberToBenchmark();
-				    Random rand = new Random();
-				    //The id to select is generated randomly among the possible ID that were inserted
-				    Long idToQuery=rand.nextLong(max)+1;
-					ps.setLong(1, idToQuery);
-					//Executes the query and calculate the time it took to complete in nanoseconds
-					Long startTime=System.nanoTime();
-					ps.execute();
-					Long elapsed=System.nanoTime()-startTime;
-					if(elapsed<minTime) minTime=elapsed;
-					if(elapsed>maxTime) maxTime=elapsed;
-					avgTime+=elapsed;
-					
-				}
-				//Save the results in the response
-				avgTime/=request.getInsertNumberToBenchmark();
-				response.setMinSelectTimeNanoSeconds(minTime);
-				response.setMaxSelectTimeNanoSeconds(maxTime);
-				response.setAvgSelectTimeNanoSeconds(avgTime);
-				response.setQueryedRecords(request.getSelectNumberToBenchmark());
-			}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
-		
-	}
-	
+
+
+
 }
+	
+

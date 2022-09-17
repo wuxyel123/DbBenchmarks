@@ -22,8 +22,8 @@ public class DbBenchmarkController {
 	
 	/*
 	 * Executes the benchmark of the DB
-	 * @param DbBenchmarkRequestOm request: request containing informations about the benchmark to be performed
-	 * @return DbBenchmarkResponseOm: response conteining the result of the benchmark   
+	 * @param DbBenchmarkRequestOm request: request containing information about the benchmark to be performed
+	 * @return DbBenchmarkResponseOm: response containing the result of the benchmark
 	 * */
 	@GetMapping(value="/benchmark", produces="application/json")
 	public DbBenchmarkResponseOm benchmarkDB(@RequestBody DbBenchmarkRequestOm request) {
