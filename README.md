@@ -13,4 +13,4 @@ Once the app is deployed you can call the service via a REST request with the fo
    ,"selectNumberToBenchmark":#Number of lines to select
    ,"commitAfterXStatement": #Number of statements after a commit is performed
    }```
->>>>>>> 06fc28e (.properties works correctly now)
+
