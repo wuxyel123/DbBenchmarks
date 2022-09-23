@@ -6,12 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0b54169f-bc43-4052-9f70-bc62a0fa17fd" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/magnews/dbBenchmark/controller/DbBenchmarkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/magnews/dbBenchmark/controller/DbBenchmarkController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/magnews/dbBenchmark/om/DbBenchmarkRequestOm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/magnews/dbBenchmark/om/DbBenchmarkRequestOm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/magnews/dbBenchmark/om/DbBenchmarkResponseOm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/magnews/dbBenchmark/om/DbBenchmarkResponseOm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/magnews/dbBenchmark/service/DbBenchmarkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test/magnews/dbBenchmark/service/DbBenchmarkService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +51,9 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm"
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.gutterIcons",
+    "spring.configuration.checksum": "6f1283966eff7aa29a1f5adbfaf775c1"
   },
   "keyToStringList": {
     "DatabaseDriversLRU": [
@@ -79,6 +75,7 @@
       <option name="presentableId" value="Default" />
       <updated>1663408509183</updated>
       <workItem from="1663408513914" duration="13081000" />
+      <workItem from="1663520905822" duration="1266000" />
     </task>
     <servers />
   </component>
