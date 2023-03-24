@@ -29,4 +29,6 @@ public class DbBenchmarkController {
 	public DbBenchmarkResponseOm benchmarkDB(@RequestBody DbBenchmarkRequestOm request) {
 		return service.benchmarkDB(request);
 	}
+
+	//
 }

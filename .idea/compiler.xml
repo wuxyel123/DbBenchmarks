@@ -7,14 +7,17 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="dbBenchmark" />
+        <module name="DbBenchmarks" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="dbBenchmark" target="17" />
+      <module name="DbBenchmarks" target="18" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="DbBenchmarks" options="-parameters" />
       <module name="dbBenchmark" options="-parameters" />
     </option>
   </component>
